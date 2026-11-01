@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Check, Sparkles, HeartHandshake, CheckCircle2, Lock, Eye, RefreshCw } from 'lucide-react';
+import { Gift, Sparkles, Lock, Eye, Heart } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface SurpriseGift {
@@ -129,11 +129,6 @@ const surpriseList: SurpriseGift[] = [
 export default function SurpriseGiftStation() {
   // Revealed state keeps track of which numbered boxes Sayana has opened
   const [revealedNumbers, setRevealedNumbers] = useState<number[]>([]);
-  // Selected gifts to claim
-  const [selectedIds, setSelectedIds] = useState<string[]>(['pathasaram', 'selfie', 'rose']);
-  const [isClaimed, setIsClaimed] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [customRequest, setCustomRequest] = useState('');
 
   // Unbox a numbered surprise
   const handleBoxClick = (gift: SurpriseGift, e: React.MouseEvent) => {
@@ -142,11 +137,6 @@ export default function SurpriseGiftStation() {
     if (!isAlreadyRevealed) {
       // First time clicking this number: reveal with celebration!
       setRevealedNumbers((prev) => [...prev, gift.number]);
-
-      // Automatically add to selected if not already
-      if (!selectedIds.includes(gift.id)) {
-        setSelectedIds((prev) => [...prev, gift.id]);
-      }
 
       // Sparkle confetti burst for this box
       confetti({
@@ -158,58 +148,18 @@ export default function SurpriseGiftStation() {
         },
         colors: ['#f43f5e', '#ec4899', '#fbbf24', '#a855f7'],
       });
-    } else {
-      // If already revealed, clicking toggles selection for the claim list
-      toggleGift(gift.id);
     }
-  };
-
-  const toggleGift = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
   };
 
   const revealAllBoxes = () => {
     const allNums = surpriseList.map((g) => g.number);
     setRevealedNumbers(allNums);
-    setSelectedIds(surpriseList.map((g) => g.id));
     confetti({
       particleCount: 80,
       spread: 90,
       origin: { y: 0.6 },
       colors: ['#f43f5e', '#ec4899', '#fbbf24'],
     });
-  };
-
-  const handleClaim = async () => {
-    if (selectedIds.length === 0) return;
-
-    setIsSubmitting(true);
-    confetti({
-      particleCount: 120,
-      spread: 75,
-      origin: { y: 0.6 },
-      colors: ['#f43f5e', '#ec4899', '#fbbf24', '#a855f7'],
-    });
-
-    try {
-      await fetch('/api/gifts', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          selectedGifts: selectedIds,
-          notes: customRequest,
-          recipient: 'Sayana',
-        }),
-      });
-      setIsClaimed(true);
-    } catch (err) {
-      console.warn('Network fallback', err);
-      setIsClaimed(true);
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
@@ -232,7 +182,7 @@ export default function SurpriseGiftStation() {
         <div className="flex items-center justify-center gap-3 pt-2">
           <div className="px-4 py-1.5 rounded-full bg-white/90 shadow-sm border border-rose-200 text-xs font-bold text-rose-600 flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-            <span>Unboxed: {revealedNumbers.length} of 7 Mystery Surprises</span>
+            <span>Unboxed: {revealedNumbers.length} of {surpriseList.length} Mystery Surprises</span>
           </div>
 
           {revealedNumbers.length < surpriseList.length && (
@@ -248,10 +198,9 @@ export default function SurpriseGiftStation() {
       </div>
 
       {/* Numbered Mystery Boxes Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-10">
         {surpriseList.map((gift) => {
           const isRevealed = revealedNumbers.includes(gift.number);
-          const isSelected = selectedIds.includes(gift.id);
 
           return (
             <motion.div
@@ -324,13 +273,9 @@ export default function SurpriseGiftStation() {
                     animate={{ rotateY: 0, opacity: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     transition={{ duration: 0.4 }}
-                    className={`rounded-3xl p-6 border-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-xl min-h-[300px] ${
-                      isSelected
-                        ? `bg-gradient-to-br ${gift.colorScheme} ring-4 ring-rose-400/40 shadow-rose-200/60`
-                        : 'bg-white/95 border-gray-200/80 hover:border-rose-300 opacity-80'
-                    }`}
+                    className={`rounded-3xl p-6 border-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between shadow-xl min-h-[300px] bg-gradient-to-br ${gift.colorScheme} ring-4 ring-rose-400/40 shadow-rose-200/60`}
                   >
-                    {/* Header: Icon, Number Badge, Checkbox */}
+                    {/* Header: Icon, Number Badge, Heart */}
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-center gap-3">
                         <div className="w-14 h-14 rounded-2xl bg-white shadow-md flex items-center justify-center text-3xl border border-black/5">
@@ -346,14 +291,8 @@ export default function SurpriseGiftStation() {
                         </div>
                       </div>
 
-                      <div
-                        className={`w-7 h-7 rounded-full flex items-center justify-center transition-all ${
-                          isSelected
-                            ? 'bg-rose-600 text-white shadow-md'
-                            : 'border-2 border-gray-300 text-transparent'
-                        }`}
-                      >
-                        <Check className="w-4 h-4 stroke-[3]" />
+                      <div className="w-8 h-8 rounded-full bg-white/90 shadow-md flex items-center justify-center text-rose-500">
+                        <Heart className="w-4 h-4 fill-rose-500" />
                       </div>
                     </div>
 
@@ -378,10 +317,10 @@ export default function SurpriseGiftStation() {
                       </p>
                     </div>
 
-                    {/* Selected Status Toggle Indicator */}
+                    {/* Voucher Footer */}
                     <div className="mt-3 pt-2 border-t border-black/5 flex items-center justify-between text-[11px] font-semibold text-rose-600">
-                      <span>{isSelected ? 'Included in your wishlist ✅' : 'Click to select this treat'}</span>
-                      <span className="text-xs">🎁</span>
+                      <span>Unboxed with all my love ❤️</span>
+                      <span className="text-xs">✨</span>
                     </div>
                   </motion.div>
                 )}
@@ -389,51 +328,6 @@ export default function SurpriseGiftStation() {
             </motion.div>
           );
         })}
-      </div>
-
-      {/* Claim Bar & Summary */}
-      <div className="max-w-2xl mx-auto bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-rose-200 shadow-xl text-center space-y-4">
-        <div className="flex items-center justify-center gap-2">
-          <HeartHandshake className="w-5 h-5 text-rose-500" />
-          <h4 className="font-serif text-lg font-bold text-gray-800">
-            {selectedIds.length} Surprise{selectedIds.length !== 1 ? 's' : ''} Selected By Sayana
-          </h4>
-        </div>
-
-        <p className="text-xs sm:text-sm text-gray-500">
-          Unbox your favorite numbers above, then click below to send your chosen wishlist directly into Salim&apos;s database vault!
-        </p>
-
-        {/* Custom optional note */}
-        <input
-          type="text"
-          value={customRequest}
-          onChange={(e) => setCustomRequest(e.target.value)}
-          placeholder="Any specific design or special color request for Salim?"
-          className="w-full text-xs sm:text-sm p-3 rounded-xl border border-rose-200 focus:outline-none focus:ring-2 focus:ring-rose-400 bg-rose-50/40 text-gray-800"
-        />
-
-        <button
-          onClick={handleClaim}
-          disabled={selectedIds.length === 0 || isSubmitting}
-          className="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-rose-500 via-pink-600 to-rose-600 hover:from-rose-600 hover:to-pink-700 disabled:opacity-50 text-white font-bold text-base shadow-lg shadow-rose-300/60 transition-all hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2"
-        >
-          <Gift className="w-5 h-5" />
-          <span>{isSubmitting ? 'Claiming Surprises...' : 'Claim My Birthday Surprises! 🎁'}</span>
-        </button>
-
-        <AnimatePresence>
-          {isClaimed && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm font-semibold flex items-center justify-center gap-2"
-            >
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-              <span>Surprise list confirmed! Salim has received your wishlist in the vault and is preparing your gifts! 👑🥰</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </section>
   );
