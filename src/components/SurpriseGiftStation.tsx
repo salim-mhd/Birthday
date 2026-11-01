@@ -22,19 +22,32 @@ interface SurpriseGift {
 const surpriseList: SurpriseGift[] = [
   {
     number: 1,
-    id: 'anklet',
-    name: 'Delicate Anklet (Payal)',
+    id: 'pathasaram',
+    name: 'Pathasaram (പാദസരം / Delicate Anklet)',
     icon: '💫',
     category: 'Jewelry & Grace',
     tagline: 'Chiming melody for every graceful step',
-    mysteryHint: 'Something shiny that chimes sweetly with every step you take...',
-    voucherDescription: 'Official Voucher: 1x Handcrafted silver/gold payal chosen with love.',
-    salimGuarantee: 'Salim guarantees to kneel and fasten this payal around your ankle himself. Every chime will remind you of how much you are cherished.',
+    mysteryHint: 'Something shiny that chimes sweetly with every step you take (പാദസരം)...',
+    voucherDescription: 'Official Voucher: 1x Handcrafted gold/silver Pathasaram chosen with all my love.',
+    salimGuarantee: 'Salim guarantees to kneel down and fasten this gorgeous Pathasaram around your ankle himself. Every chime will remind you of our love.',
     colorScheme: 'from-amber-100/90 to-yellow-50 border-amber-300 text-amber-900',
     boxGradient: 'from-amber-400 to-amber-600',
   },
   {
     number: 2,
+    id: 'selfie',
+    name: 'Surprise Cute Selfie With Salim',
+    icon: '🤳',
+    category: 'Moments & Memories',
+    tagline: 'Cute poses, crazy faces & memories framed forever',
+    mysteryHint: 'A special camera click of you and Salim making funny faces and sweet smiles...',
+    voucherDescription: 'Official Voucher: A 21st birthday couple photoshoot & cute selfies session with Salim.',
+    salimGuarantee: 'Salim promises to take as many retakes as you want until you get the perfect aesthetic selfie angle for your gallery!',
+    colorScheme: 'from-cyan-100/90 to-sky-50 border-cyan-300 text-sky-950',
+    boxGradient: 'from-cyan-500 to-blue-600',
+  },
+  {
+    number: 3,
     id: 'kiss',
     name: 'Gentle Forehead & Sweet Kisses',
     icon: '💋',
@@ -47,7 +60,7 @@ const surpriseList: SurpriseGift[] = [
     boxGradient: 'from-rose-400 to-pink-600',
   },
   {
-    number: 3,
+    number: 4,
     id: 'hug',
     name: 'Tight 5-Minute Bear Hug',
     icon: '🫂',
@@ -60,7 +73,7 @@ const surpriseList: SurpriseGift[] = [
     boxGradient: 'from-purple-400 to-indigo-600',
   },
   {
-    number: 4,
+    number: 5,
     id: 'chocolate',
     name: 'Silky Chocolate Hamper',
     icon: '🍫',
@@ -73,7 +86,7 @@ const surpriseList: SurpriseGift[] = [
     boxGradient: 'from-amber-600 to-amber-800',
   },
   {
-    number: 5,
+    number: 6,
     id: 'icecream',
     name: 'Midnight Ice Cream Date',
     icon: '🍦',
@@ -86,7 +99,7 @@ const surpriseList: SurpriseGift[] = [
     boxGradient: 'from-pink-500 to-rose-600',
   },
   {
-    number: 6,
+    number: 7,
     id: 'bellychain',
     name: 'Exquisite Belly Chain',
     icon: '✨',
@@ -99,7 +112,7 @@ const surpriseList: SurpriseGift[] = [
     boxGradient: 'from-yellow-500 to-amber-600',
   },
   {
-    number: 7,
+    number: 8,
     id: 'rose',
     name: 'Bouquet of Fresh Crimson Roses',
     icon: '🌹',
@@ -117,7 +130,7 @@ export default function SurpriseGiftStation() {
   // Revealed state keeps track of which numbered boxes Sayana has opened
   const [revealedNumbers, setRevealedNumbers] = useState<number[]>([]);
   // Selected gifts to claim
-  const [selectedIds, setSelectedIds] = useState<string[]>(['anklet', 'kiss', 'rose']);
+  const [selectedIds, setSelectedIds] = useState<string[]>(['pathasaram', 'selfie', 'rose']);
   const [isClaimed, setIsClaimed] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [customRequest, setCustomRequest] = useState('');
