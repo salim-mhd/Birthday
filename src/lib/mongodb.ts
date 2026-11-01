@@ -26,3 +26,4 @@ if (!uri) {
 }
 
 export default clientPromise;
+

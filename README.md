@@ -98,3 +98,4 @@ npm start -- -p 3001
    MONGODB_URI = mongodb+srv://salimmhd1280_db_user:dvw49BdQZDJsHSki@cluster0.axug69j.mongodb.net/birthday?retryWrites=true&w=majority
    ```
 4. Click **Deploy**! You will get a live link like `https://sayana-21st-birthday.vercel.app` to send directly to Sayana!
+
