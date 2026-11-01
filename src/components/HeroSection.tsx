@@ -212,6 +212,12 @@ export default function HeroSection() {
       {/* Quick Action Navigation Links */}
       <div className="flex flex-wrap items-center justify-center gap-4 text-sm font-medium">
         <a
+          href="#cake-cutting"
+          className="px-6 py-3 rounded-full bg-gradient-to-r from-rose-500 to-pink-500 text-white hover:from-rose-600 hover:to-pink-600 shadow-md transition-all hover:scale-105 flex items-center gap-2"
+        >
+          <span>Cut The Cake! 🎂🔪</span>
+        </a>
+        <a
           href="#proposal-game"
           className="px-6 py-3 rounded-full bg-rose-600 text-white hover:bg-rose-700 shadow-md transition-all hover:scale-105 flex items-center gap-2"
         >

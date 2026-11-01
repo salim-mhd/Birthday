@@ -1,4 +1,5 @@
 import HeroSection from '@/components/HeroSection';
+import CakeCuttingSection from '@/components/CakeCuttingSection';
 import MomentsGallery from '@/components/MomentsGallery';
 import HerFavorites from '@/components/HerFavorites';
 import HydrationCare from '@/components/HydrationCare';
@@ -22,6 +23,9 @@ export default function Home() {
 
       {/* Hero: 21st Greeting & Blow Candles */}
       <HeroSection />
+
+      {/* Interactive Birthday Cake Cutting Ceremony */}
+      <CakeCuttingSection />
 
       {/* Moments Gallery: Photos & Salim's Whispers */}
       <MomentsGallery />
@@ -52,4 +56,3 @@ export default function Home() {
     </main>
   );
 }
-
