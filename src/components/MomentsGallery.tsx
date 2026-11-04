@@ -100,6 +100,12 @@ export default function MomentsGallery() {
         <p className="text-gray-600 font-light text-base sm:text-lg">
           Every snapshot is a page in my favorite love story. Click any polaroid to see what Salim whispers behind each photo.
         </p>
+
+        {/* Music indicator for this section */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-50/90 border border-amber-200/90 text-amber-900 text-xs font-semibold shadow-2xs">
+          <span className="text-sm animate-pulse">🎵</span>
+          <span>Playing For Your Smile: &ldquo;Punchiri (Paal Polethe Punchiri)&rdquo; ✨</span>
+        </div>
       </div>
 
       {/* Polaroid Gallery Grid */}
